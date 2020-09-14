@@ -1,0 +1,75 @@
+#OBSERVACIONES:
+#no espacios entre el simbolo: \*
+#no comentarios en la misma linea: mount -path->/home/Prueba/Disco1.dsk -name->Particion1 #id->vda1
+#-------------
+#reducir espacio entre las particiones //solo cambiarle el tamanio y el fin
+
+Mkdisk -Size->3000 -unit->K -path->"/home/disco Espacio/" -name->Disco1.dsk
+Mkdisk -Size->3000 -unit->K -path->/home/Disco/ -name->Disco2.dsk
+Mkdisk -Size->2 -unit->M -path->"/home/disco Espacio/disco4/" -name->Disco4.dsk
+Mkdisk -Size->3 -unit->M -path->/home/Prueba/ -name->Disco1.dsk
+Mkdisk -Size->100 -unit->K -path->"/home/disco Espacio/"\*
+-name->Disco3.dsk
+#error parametro no especificado  No se crea el disco ni carpetas
+Mkdis -Size->3000 -unit->K -path->/home/Disco2/ -name->Disco2.dsk
+pause
+# tienen que mostar mensaje de confirmacion para eliminar
+rmdisk -path->"/home/disco Espacio/Disco1.dsk"
+rmdisk -path->"/home/disco Espacio/Disco3.dsk"
+#error disco no existe, mostrar mensaje
+rmdisk -path->"/home/disco Espacio/Disco9.dsk"
+Pause
+fdisk -Size->2 -path->/home/Prueba/Disco1.dsk -unit->M -name->Particion1
+#error aun no se ha creado ninguna particion extendida
+fdisk -path->/home/Prueba/Disco1.dsk -name->Logica1 -type->L -unit->B -add->100
+fdisk -Size->400 -path->/home/Prueba/Disco1.dsk -unit->K -type->E -fit->FF -name->Particion2
+fdisk -Size->200 -path->/home/Prueba/Disco1.dsk -unit->K -fit->BF -name->Particion3
+#error ya existe una partcion extendida
+fdisk -Size->100 -path->/home/Prueba/Disco1.dsk -unit->K -type->E -fit->FF -name->Particion0
+fdisk -Size->240 -path->/home/Prueba/Disco1.dsk -type->P -fit->BF -unit->K -name->Particion4
+#error ya existe 4 particiones dentro del disco
+fdisk -Size->40 -path->/home/Prueba/Disco1.dsk -type->P -fit->BF -unit->K -name->Particion14
+#creando logicas
+fdisk -type->L -unit->K -name->Part5 -size->50 -path->/home/Prueba/Disco1.dsk -fit->BF
+fdisk -type->L -unit->K -name->Part6 -size->50 -path->/home/Prueba/Disco1.dsk -fit->BF
+fdisk -type->L -unit->K -name->Part7 -size->40 -path->/home/Prueba/Disco1.dsk -fit->BF
+fdisk -type->L -unit->K -name->Part8 -size->80 -path->/home/Prueba/Disco1.dsk -fit->BF
+#DICE que no existe el vda1
+pause
+mount -path->/home/Prueba/Disco1.dsk -name->Particion1
+rep -id->vda1 -Path->/home/Prueba/reporteDisk1.png -name->disk
+rep -id->vda1 -Path->/home/Prueba/reporteMBR.png -name->mbr
+Pause
+#reduce tamaño y deja fragmentación
+fdisk -path->/home/Prueba/Disco1.dsk -name->Particion1 -unit->K -add->-200
+fdisk -delete->full -name->Particion3 -path->/home/Prueba/Disco1.dsk
+# elimina una logica
+fdisk -delete->fast -name->Part7 -path->/home/Prueba/Disco1.dsk
+mount -path->/home/Prueba/Disco1.dsk -name->Particion2
+#error ya no existe la particion
+mount -path->/home/Prueba/Disco1.dsk -name->Particion3
+mount -path->/home/Prueba/Disco1.dsk -name->Particion4
+mount -path->/home/Prueba/Disco1.dsk -name->Particion2
+#error la particion ya esta montada
+mount -path->/home/Prueba/Disco1.dsk -name->Particion4
+#monta una logica
+mount -path->/home/Prueba/Disco1.dsk -name->Part6
+#error no existe el disco
+mount -path->/home/Prueba/Disco2.dsk -name->Particion3
+mount -path->/home/Prueba/Disco2.dsk -name->Particion4 
+rep -id->vda4 -Path->/home/Prueba/reporteDisk2.png -name->disk
+rep -id->vda4 -Path->/home/Prueba/reporteMBR2.png -name->mbr
+pause
+#elimina la extendida
+fdisk -delete->fast -name->Particion2 -path->/home/Prueba/Disco1.dsk
+rep -id->vda4 -Path->/home/Prueba/reporteDisk3.png -name->disk
+rep -id->vda4 -Path->/home/Prueba/reporteMBR3.png -name->mbr
+mount
+pause
+unmount -id1->vda4
+mount
+
+
+
+
+

@@ -1,0 +1,94 @@
+#exec -path->"/home/ArchivoEjemplo.mia"
+
+Mkdisk -Size->3000 -unit->K -path->"/home/Prueba/" -name->Disco1.dsk
+Mkdisk -Size->80 -unit->K -fit->BF -path->"/home/Prueba/" -name->Disco2.dsk
+Pause
+fdisk -Size->1 -path->"/home/Prueba/Disco1.dsk" -unit->M -name->Particion1
+fdisk -Size->200 -path->"/home/Prueba/Disco1.dsk" -unit->K -type->E -fit->FF -name->Particion2
+fdisk -Size->400 -path->"/home/Prueba/Disco1.dsk" -unit->K -fit->BF -name->Particion3
+fdisk -Size->200 -path->"/home/Prueba/Disco1.dsk" -type->P -fit->BF -unit->K -name->Particion4
+fdisk -type->L -unit->K -name->Part5 -size->50 -path->"/home/Prueba/Disco1.dsk" -fit->BF
+fdisk -type->L -unit->K -name->Part6 -size->50 -path->"/home/Prueba/Disco1.dsk" -fit->BF
+
+fdisk -path->"/home/Prueba/Disco1.dsk" -name->Particion1 -unit->B -add->100
+fdisk -path->"/home/Prueba/Disco1.dsk" -name->Part5 -delete->full
+
+Pause
+mount -path->"/home/Prueba/Disco1.dsk" -name->Particion1
+mount -path->"/home/Prueba/Disco1.dsk" -name->Particion2
+mount -path->"/home/Prueba/Disco1.dsk" -name->Particion3
+mount -path->"/home/Prueba/Disco1.dsk" -name->Particion4
+mount -path->"/home/Prueba/Disco2.dsk" -name->Particion1
+mount -path->"/home/Prueba/Disco2.dsk" -name->Particion4
+mount -path->"/home/Prueba/Disco2.dsk" -name->Particion3
+mount -path->"/home/Prueba/Disco2.dsk" -name->Particion2
+
+Pause
+#Desmonta la partición con id vda1 (En Disco1.dsk)
+unmount -id->vda3
+Pause
+rep -id->vda2 -Path->/home/Prueba/reporteDisk.txt -name->disk
+rep -id->vda2 -Path->/home/Prueba/reporte2.txt -name->mbr
+
+mkfs -id->vda1
+
+Mkdir -P -id->vda1 -path->"/bin/"
+Mkdir -P -id->vda1 -path->"/usr/usuario"
+Mkdir -P -id->vda1 -path->/hola
+Mkdir -P -id->vda1 -path->/etc/
+Mkdir -P -id->vda1 -path->"/boot/"
+Mkdir -P -id->vda1 -path->"/git/"
+Mkdir -P -id->vda1 -path->"/library/"
+Mkdir -P -id->vda1 -path->"/copia/"
+Mkdir -P -id->vda1 -path->"/home/user/docs"
+Mkdir -P -id->vda1 -path->"/home/user/docs/usac"
+Mkdir -P -id->vda1 -path->"/home/etc/que/onda/uno"
+Mkdir -P -id->vda1 -path->"/home/hola"
+Mkdir -P -id->vda1 -path->"/home/file"
+Mkdir -P -id->vda1 -path->"/home/fuente"
+Mkdir -P -id->vda1 -path->"/home/hola1"
+Mkdir -P -id->vda1 -path->"/home/file1"
+Mkdir -P -id->vda1 -path->"/home/fuente1"
+Mkdir -P -id->vda1 -path->"/home/hola2"
+Mkdir -P -id->vda1 -path->"/home/file2"
+Mkdir -P -id->vda1 -path->"/home/fuente2"
+mkfile -P -id->vda1 -path->"/home/etc/que/onda/uno/dos.txt" -cont->"f dos" -size->500
+mkfile -id->vda1 -path->"/home/etc/que/onda/uno/dos2.txt" -size->1000
+mkfile -P -id->vda1 -path->"/home/user/docs/hola.txt" -cont->"Hola file" -size->200
+mkfile -id->vda1 -path->"/home/user/docs/otro.txt" -cont->"Hola file" -size->15
+mkfile -id->vda1 -path->"/home/user/docs/hola2.txt" -cont->"Hola file" -size->15
+mkfile -id->vda1 -path->"/home/user/docs/hola3.txt" -cont->"Hola file" -size->15
+mkfile -P -id->vda1 -path->"/home/user/docs/hola4.txt" -cont->"Hola file" -size->15
+mkfile -id->vda1 -path->"/home/user/docs/hola5.txt" -cont->"Hola file" -size->15
+mkfile -id->vda1 -path->"/home/user/docs/hola6.txt" -cont->"Hola file" -size->300
+mkfile -id->vda1 -path->"/home/user/docs/hola7.txt" -cont->"Hola file" -size->15
+mkfile -P -id->vda1 -path->"/home/mis documentos/archivo 1.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo2.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->200
+mkfile -id->vda1 -path->"/home/mis documentos/archivo3.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo4.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo5.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo6.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->550
+mkfile -id->vda1 -path->"/home/mis documentos/archivo7.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo8.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo9.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo10.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/mis documentos/archivo11.txt" -cont->"Contenido x, estoy probando si aguanta varios bloques." -size->60
+mkfile -id->vda1 -path->"/home/Indirecto.txt" -cont->"Este es un archivo donde se esta probando si soporta bastante texto y como se maneja entre bloques, deberiamos tener varios bloques." -size->340
+
+rep -id->vda1 -Path->"/home/Prueba/bmAVD.txt" -name->bm_arbdir
+rep -id->vda1 -Path->"/home/Prueba/bmDD.txt" -name->bm_detdir
+rep -id->vda1 -Path->"/home/Prueba/bmInodos.txt" -name->bm_inode
+rep -id->vda1 -Path->"/home/Prueba/bmBloques.txt" -name->bm_block
+rep -id->vda1 -Path->"/home/Prueba/SB.txt" -name->sb
+rep -id->vda1 -Path->"/home/Prueba/Directorio.pdf" -name->directorio
+rep -id->vda1 -Path->"/home/Prueba/tree_file.pdf" -name->tree_file -ruta->"/home/mis documentos/archivo 1.txt"
+rep -id->vda1 -Path->"/home/Prueba/tree_complete.pdf" -name->tree_complete
+rep -id->vda1 -Path->"/home/Prueba/tree_directorio.pdf" -name->tree_directorio -ruta->"/home/mis documentos/"
+rep -id->vda1 -Path->"/home/Prueba/bitacora.pdf" -name->bitacora
+
+
+
+
+
+
+

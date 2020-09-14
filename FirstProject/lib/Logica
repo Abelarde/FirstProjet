@@ -1,0 +1,265 @@
+
+formateoParticion(), addLWH(), minLWH()
+
+crearArchivo(), llenarArchivo(), extraerArchivo(path), guardarArchivo()
+contendio.scanner(textoqueBusco)
+crearCarpeta(),...
+
+LoginParticion(/),  //estas logeado en la PARTICION podes, entonces podes modificarla. (no particiones, no disco, no montadas)
+Logout(/) //no se puede iniciar sesion sin haber salido antes
+
+permisoDondeEstoy() := true/false , dependiendo de lo que quiera hacer, mkfile, etc.... //que permisos tengo o si tengo permiso
+
+//VALIDAR QUE SEA UN ARCHIVO O DIRECTORIO, DESDE EL PATH
+
+//LOGEADO EN PARTICION
+//ES ROOT EL USR
+//ESTA FORMATEADA LWH LA PARTICION
+logeado := true/false
+isRoot := true/false
+isPartFormatLWH := true/false
+
+====================================mkfs==========================================
+//FORMATA LA PARTICION CON LWH [estructuras]
+//LLENAR LOS DATOS AL SB
+//CREARA EN LA RAIZ ARCHIVO USERS.TXT [/users.txt]; CON INFORMACION DE LOS USUARIOS DEL S.A [usuario,contrasena]
+    //ID:
+    //TIPO:
+    //ADD:
+    //UNIT:
+
+formateoParticion(), addLWH(), minLWH()
+
+crearArchivo(), llenarArchivo(), extraerArchivo(), guardarArchivo()
+crearCarpeta(),...
+
+//SI TUVIERA ADD (MODIFICAR LOS VALORES DEL STRUCT SB)
+//no entiendo el movimiento de der-izq (+) o izq-der(-) (para evitar sobreescribir informacion)(si reducir tam. significa perder informacion se deniega la disminucion)
+
+//PARA CUALQUIER TRABAJO QUE INCLUYAN LOS VALORES DE LOS ATRIBUTOS DEL SB, HAY QUE EXTRAERLO PORQUE ESTE
+//TENDRA EL VALOR MAS RECIENTE SI EN DADO CASO SE AUMENTO O DISMINUYO
+//AL FORMATEAR LA PARTICION NO ELIMINO LA MONTADA TAMBIEN?
+
+===========================admin de usuarios y grupos=================================
+//CADA PARTICION TIENE QUE TENER SU [/users.txt]
+//DOS TIPOS DE REGISTROS: USUARIOS/GRUPO
+//id == 0 -> eliminado, id == **** -> contador aumentando cada vez que se vayan creando en las PARTICIONES
+//GrupoID/ESTADO,TIPO,GRUPO
+//UsuarioID/ESTADO,TIPO,GRUPO,USUARIO,CONTRASENA
+//[byte,byte,[10]byte,[10]byte,[10]byte]
+//datos del archivo inicial [/users.txt]:
+    1, G, root \n
+    1, U, root , root , 20200000\n
+
+//el id (contador) solo es un numero que me indica is esta borrado o no? o cual es el proposito?
+
+====================================Login / Logout==========================================
+logeado := true/false
+LoginParticion(/),  //estas logeado en la PARTICION podes, entonces podes modificarla. (no particiones, no disco, no montadas)
+Logout(/) //no se puede iniciar sesion sin haber salido antes
+contendio.scanner(textoqueBusco)
+====================================================================================DEBE DE EXISTIR UNA SESION ACTIVA / SINO ERROR
+=======================================mkgrp===========================================
+//CREAR UN GRUPO PARA LOS USUARIOS DE LA MISMA PARTICION Y GUARDAR EN EL [/users.txt]
+//SOLO EL USUARIO ROOT, SINO MENSAJE DE ERROR
+//NO GRUPO REPETIDO, SINO MENSAJE DE ERROR
+//crear las variables o campos con sus espacion para que se vean igual en el archivo [/users.txt]
+isRoot := true/false
+llenarArchivo()
+    //id:id de la particion en donde creara el grupo, ver si ya esta formateado
+    //name: nombre del grupo que debe ser unico
+
+El archivo users.txt debería quedar como el siguiente:
+    1, G, Root    \n
+    1, U, root    , root    , 123    \n
+    2, G, usuarios \n
+=======================================rmgrp===========================================
+//LO MISMO DE mkgrp solo que ahora le cambio el id a == 0
+//buscar el grupo
+//ir a escribir el 0
+extraerArchivo(path)
+contendio.scanner(textoqueBusco)
+
+El archivo users.txt debería quedar como el siguiente:
+    1, G, Root \n
+    1, U, root , root , 20200000 \n
+    0, G, usuarios \
+=======================================mkusr===========================================
+//LO MISMO QUE mkgrp
+//ir a buscar el archivo
+//confirmar repeticion
+//ir a escribir en la posicion correspondiente
+//validar nombre, pwd    <= 10 caracteres
+//valir que pertenezca al grupo
+//debe de existir el grupo en la particion ya, validar
+
+//de que me sirve tener varios grupos en la misma particion en el mismo s.a lwh?  //para ver que permisos puede tener cada archivo
+//indica el grupo al que pertence, o pertencera?//correcto indicar y si existe todo correcto, sino pues no existe grupo no se puede crear el usuario
+//practicamente es incluirlo a un grupo no puede existir sin grupo? //no, no puede existir sin grupo
+
+El archivo users.txt debería quedar así:
+    1, G, Root \n
+    1, U, root , root , 20200000\n 2, G, usuarios \n
+    2, U, usuarios , user1 , usuario \n
+
+//puedo crear usuarios sin indicarles grupo ? //no, no se puede crear un usuario sin grupo
+=======================================rmusr===========================================
+//LO MISMO QUE mkusr
+//PEROOOOOOOOO SI SE ELIMINA ESTE USUARIO TODAS SUS COSAS [ARCHIVOS/CARPETAS] PASAN A SER DEL ROOT
+
+rmusr -id->vda1 -usr->user
+
+El Archivo Users.txt debería quedar así:
+    1, G, Root \n
+    1, U, root, root, 123 \n
+    2, G, usuarios \n
+    0, U, usuarios, user, 123 \n
+=======================================USUARIO ROOT===========================================
+//NO ME IMPORTAN LOS PERMISOS DE LOS ARCHIVOS/CARPETAS
+//EL PODRA HACER LO QUE QUIERA CON LOS ARCHIVOS/CARPETAS
+//NO SE LE NEGARA NINGUNA OPERACION POR PERMISOS, YA QUE LOS TIENE TODOS
+
+//YO? QUE PERMISOS TENGO?
+//DETERMINAR PERMISOS:
+    categoria:
+    ------validar
+        1)propietario
+        2.1)si pertenece al mismo grupo en el que esta el propietario
+        2.2)NO pertenece al mismo grupo en el que esta el propietario
+        -------validar y en base a este resultado
+            a)propietario (U)
+            b)grupo (G)
+            c)otro (O)
+
+    categoria := ahora ya puede saber que permisos tengo
+==========================Administración de carpetas, archivos y permisos======================COMANDOS PARA CREAR,EDITAR,COPIAR,MOVER,ELIMINAR LOS ARCHIVOS Y CARPETAS
+                                                                                               USUARIO_PROPIETARIO = PERMISOS (PARA EL SERAN LOS PERMISOS)
+                                                                                               GRUPO_PERTENECE = PERMISOS
+                                                                                               OTROS = PERMISOS
+
+======================================CHMOD===========================================
+//CAMBIAR LOS PERMISOS DE ARCHIVOS Y CARPETAS
+//UNA O VARIAS
+//USUARIO ROOT SOBRE TODAS LAS QUE QUIERA
+//LOS DEMAS USUARIOS SOLO SOBRES SUS PROPIAS CREADAS
+//DEPENDIENDO DEL NUMERO X,X,X RETORNAR POR CADA UNO EL VALOR EN BITS -> 5 = (101) LEER,EJECUTAR, EL CERO NO TIENE PERMISOS PARA UTILIZAR EL ARCHIVO
+//CAMBIO RECURSIVO EN ARCHIVOS Y CARPETAS PEROOO SOLO EN LOS QUE SON PROPIEDAD DEL USUARIO ACTUAL
+//CAMBIO Y COMPRUEBO Y ASI ME VOY.... HASTA EL FINAL
+
+======================================mkfile===========================================
+//CREAR UN ARCHIVO, CON PERMISOS 664,
+//PROPIETARIO EL USUARIO ACTUAL LOGUEADO [USER,PWD]
+//EL USUARIO DEBERA TENER EL PERMISO [ESCRITURA] EN DONDE ESTA [LA CARPETA PADRE], SINO ERROR
+
+//como haci que tendra el mismo cotenido que un archivo que esta en el dd de la computadora?
+
+
+======================================cat===========================================
+//PERMISO DE LECTURA? SINO MENSAJE DE ERRRO
+//IR A BUSCAR EL ARCHIVO, CONCATENAR EL CONTENIDO POR SI SON VARIOS QUE TENGO QUE IR A LEER
+//LEER UN ARCHIVO
+//IMPRIMIR SU CONTENDIO EN UN .txt
+======================================RM===========================================
+//ELIMINAR ARCHIVO Y/O CARPETA Y TODO SU CONTENIDO
+//QUE PERMISO TIENE EL LOGUEADO? SI ES DE ESCRITURA PROCEDE SINO NO SE PUEDE ELIMINAR EL ARCHIVO O CARPETA DONDE NO TIENE PERMISOS
+//DESDE DONDE NO SE PUEDE ELIMINAR POR PERMISOS... DESDE AHI HACIA ARRIBA NO SE ELIMINA
+//ELIMINA DONDE TENGAS PERMISO PERO SI TE TOPAS CON UNO QUE NO, NO TOCAS ESA RAMA PERO QUIZAS LAS OTRAS RAMAS SI... SEGUIR RECORRIENDO LOS APUNTADORES
+//E IR VERIFICANDO DONDE TIENE PERMISOS PARA ELIMINAR
+//SIEMPRE TOMAR EN CUENTA SI PUEDE SER EL ROOT
+======================================EDIT===========================================
+//AGREGAR CONTENIDO, MODIFICAR CONTENIDO
+//EL USUARIO DEBE DE TENER PERMISOS DE: LECTURA Y ESCRITURA, SINO ERROR
+
+//parametro cont? jalar la informacion de otro path
+======================================REN===========================================
+//CAMBIAR NOMBRE AL ARCHIVO Y/O DIRECTORIO
+//SI TIENE PERMISOS DE ESCRITURA
+//TRABAJO SOBRE LA ESTRUCTURA
+
+//VALIDAR QUE NO EXISTA OTRO NOMBRE IGUAL AL MISMO NIVEL?
+======================================MKDIR===========================================
+//LO MISMO QUE MKFILE SOLO QUE AHORA SON DIRECTORIOS
+
+
+
+======================================CP===========================================
+//COPIA UN APUNTADOR?
+//COPIA TODO EL ARCHIVO O CARPETA HACIA OTRO DESTINO, APUNTADOR?
+//SIEMPRE VALIDANDO QUE SE TENGA LOS PERMISOS EN DONDE VAMOS... EL ARCHIVO O CARPETA, SINO SOLO NO COPIAMOS ESE/O
+//PERMISO DE LECTURA DONDE COPIA
+//PERMISO DE ESCRITURA DONDE PEGA
+//VALIDACIONES SI EXISTE LA CARPETA DONDE SE COPIARA O DONDE SE PEGARA
+
+======================================MV===========================================
+//MOVERA UN ARCHIVO Y/O CARPTEA
+//PERMISOS DE ESCRITURA EN EL ORIGEN Y EN EL DESTINO
+
+//ORIGEN - DESTINO
+
+MISMA PARTICION:
+    -SOLO CAMBIAN LAS REFERENCIAS, PARA QUE YA NO TENGA EL PADRE ORIGEN SINO EL PADRE DESTINO
+    Y QUE EL PADRE YA NO TENGA A ESOS HIJOS
+
+
+DIFERENTE PARTICION:
+    -COPIAR Y DESPUES ELIMINAR
+
+======================================FIND===========================================
+//BUSQUEDA POR NOMBRE PARA ARCHIVO Y CARPETA
+//RESULTADO EN FORMA DE ARBOL, MOSTRANDO TODOS LOS ARCHIVOS ENCONTRADOS
+// find *, desde la carpeta que me dan hasta el final en todas sus ramas, ya que no hay filtro
+
+
+SI ES:
+
+CARPETA:
+
+ARCHIVO:
+
+
+//que te mostramos? solo un bool de encontrado o que? //no, mostramos un arbol de las carpetas, ver ejemplo
+//el caracter '?'?
+
+======================================chown===========================================
+//CAMBIA EL PROPIETARIO
+//RECURSIVAMENTE
+//CAMBIA EL PROPIETARIO DE UNO O MAS ARCHIVOS Y/O CARPETAS
+
+ROOT:
+
+ES EL MISMO:
+
+
+//como voy a saber si es mio o no es mio ese archivo/carpeta ? por el nombre del propietario, un atributo en la estructura
+//puedo crear un archivo en una carpeta que no soy dueno pero no permitir que el dueno de la carpeta elimine mi archivo ?
+//parametro -R y sino es de su propiedad algunos archivos o carpetas?
+//parametro -usr debe de existir en el [/users.txt][debe de pertencer a un grupo?] ?
+
+======================================chgrp===========================================
+//CAMBIAR DE GRUPO A UN USUARIO
+
+ROOT: (SOLO ROOT)
+
+
+====================================================================================ESTRUCTURA DEL S.A. LWH
+
+git pull
+proyecto1
+
+==========================================
+ruta tree_file, tree_directorio, SOLO POR EL MOMENTO, DIJO EL AUX -A?
+
+FORMATEO:
+
+FAST: LLENAR EL SB, ELIMINAR REFERENCIAS
+FULL: HACER TODOS LOS FOR, RESETEAR TODO
+
+=============
+ADD: MKFS NO AUN
+
+=================================================
+
+
+
+
+

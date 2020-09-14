@@ -1,0 +1,113 @@
+Mkdisk -size->22 -path->/home/user/ -NaMe->Disco5.dsk
+Fdisk -sizE->7 -path->/home/user/Disco5.dsk -type->E -unit->M -name->Particion1
+Fdisk -sizE->2 -path->/home/user/Disco5.dsk -unit->m -name->Particion2
+Fdisk -sizE->3 -path->/home/user/Disco5.dsk -type->L -unit->M -name->Particion3
+mount -path->/home/user/Disco5.dsk -name->Particion3
+mount
+rep -id->vda1 -Path->/home/user/reports/reporte1.jpg -name->disk
+rep -id->vda1 -Path->/home/user/reports/reporte2.jpg -name->mbr
+mkfs -id->vda1 -type->fast
+rep -id->vda1 -path->/home/user/reports/mkfs.jpg -name->tree_complete
+rep -id->vda1 -path->/home/user/reports/reporte3.jpg -name->sb
+mkdir -p -id->vda1 -path->/home/doc
+mkdir -p -id->vda1 -path->/src
+mkdir -p -id->vda1 -path->/personal
+mkdir -id->vda1 -path->/home/doc/edu
+mkdir -p -id->vda1 -path->/music
+mkdir -p -id->vda1 -path->/two
+mkdir -p -id->vda1 -path->/three
+mkdir -p -id->vda1 -path->/indirecto
+rep -id->vda1 -path->/home/user/reports/reporte4.txt -name->bm_arbdir
+rep -id->vda1 -path->/home/user/reports/reporte5.jpg -name->directorio
+#size=15,cont=15(abc),name=a.txt
+rep -id->vda1 -path->/home/user/reports/reporte6.jpg -name->directorio
+mkfile -SIZE->15 -id->vda1 -PatH->"/home/user/docs/a.txt" -p
+#rep -id->vda1 -path->/home/user/reports/reporte7.jpg -name->tree_complete
+#mkfile -id->vda1 -path->/home/doc/edu/eduarchivo.txt
+#rep -id->vda1 -path->/home/user/reports/reporte8.jpg -name->tree_complete
+#rep -id->vda1 -path->/home/user/reports/reporte9.txt -name->bm_detdir
+pause
+#mkfile -id->vda1 -path->"/home/doc/prueba.txt"
+#rep -id->vda1 -path->/home/user/reports/reporte10.jpg -name->tree_complete
+#mkfile -id->vda1 -path->"/archivoenlaraiz.txt"
+pause
+#mkfile -id->vda1 -path->"/indirecto/archivoenelindirecto.txt"
+rep -id->vda1 -path->/home/user/reports/reporte10.jpg -name->tree_complete
+pause
+#no cambie el tamanio del inodo, pero porque solo sobre escribo el contenido
+mkfile -SIZE->77 -id->vda1 -PatH->"/home/user/docs/b.txt" -p
+mkfile -SIZE->133 -id->vda1 -PatH->"/home/user/docs/c.txt" -p
+#mkfile -id->vda1 -path->"/home/mis documentos/archivo 1.txt"
+mkfile -id->vda1 -path->"/home/user/docs/b.txt" -p\*
+-cont->"/home/Documents/b.txt"
+rep -id->vda1 -path->/home/user/reports/reporte11.jpg -name->directorio
+rep -id->vda1 -path->/home/user/reports/reporte12.txt -name->bm_arbdir
+rep -id->vda1 -path->/home/user/reports/reporte13.jpg -name->tree_complete
+rep -id->vda1 -Path->"/home/user/reports/reporte_tree_directorio.pdf" -name->tree_directorio -ruta->"/home/user/docs"
+rep -id->vda1 -Path->"/home/user/reports/reporte_tree_file.pdf" -name->tree_file -ruta->"/home/user/docs/c.txt"
+rep -id->vda1 -Path->"/home/user/reports/reporte_tree_file2.pdf" -name->tree_file -ruta->"/nada.txt"
+rep -id->vda1 -Path->/home/user/reports/diskfinal.jpg -name->disk
+
+
+#un archivo vacio?
+#un archivo que no existe?
+Cat -file1->"/home/user/docs/a.txt" -Id->vda1 -file2->"/home/user/docs/b.txt" -file3->"/home/user/docs/c.txt"
+
+rep -id->vda1 -path->/home/user/reports/treeantes.jpg -name->tree_complete
+#archivo
+#existe
+#rm -PatH->"/home/user/docs/a.txt" -Id->vda1
+#rep -id->vda1 -path->/home/user/reports/eliminaciona.jpg -name->tree_complete
+#no existe
+#rm -PatH->"/home/user/docs/no existo.txt" -Id->vda1
+
+#carpeta
+#existe
+#rm -PatH->"/home" -Id->vda1
+#rep -id->vda1 -path->/home/user/reports/eliminacionhome.jpg -name->tree_complete
+#existe
+#rm -PatH->"/home/user/docs" -Id->vda1
+#rep -id->vda1 -path->/home/user/reports/eliminaciondocs.jpg -name->tree_complete
+#no existe
+#rm -PatH->"/home/noexisto1/docs" -Id->vda1
+#no existe
+#rm -PatH->"/home/user/noexisto2" -Id->vda1
+#rep -id->vda1 -path->/home/user/reports/noexisten.jpg -name->tree_complete
+
+#rep -id->vda1 -path->/home/user/reports/bmardir.txt -name->bm_arbdir
+
+#ren -PatH->"/home/user/docs/a.txt" -Id->vda1 -name->"eduardo.txt"
+#rep -id->vda1 -path->/home/user/reports/cambiodenombre.jpg -name->tree_complete
+
+#ren -PatH->"/personal" -Id->vda1 -name->"personaldeeduardo"
+
+find -id->vda1 -path->"/home" -name->*
+find -id->vda1 -path->"/home" -name->"?.*"
+
+
+#fdisk -path->/home/user/Disco5.dsk -name->Particion2 -unit->K -add->-200
+
+#fdisk -path->/home/user/Disco5.dsk -name->Particion2 -unit->B -add->100
+
+
+#rep -id->vda1 -Path->/home/user/reports/aver.jpg -name->disk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+Mkdisk -size->27 -UNIT->M -path->/home/user/ -NaMe->Disco5.dsk
+Fdisk -sizE->7 -path->/home/user/Disco5.dsk -type->E -unit->M -name->Particion1
+Fdisk -sizE->2 -path->/home/user/Disco5.dsk -unit->m -name->Particion2
+Fdisk -sizE->3 -path->/home/user/Disco5.dsk -type->L -unit->M -name->Particion3
+Fdisk -sizE->2 -path->/home/user/Disco5.dsk -unit->m -name->Particion4
+Fdisk -sizE->2 -path->/home/user/Disco5.dsk -unit->m -name->Particion5
+mount -path->/home/user/Disco5.dsk -name->Particion3
+mount
+rep -id->vda1 -Path->/home/user/reports/diskfinal.jpg -name->disk
+
+#fdisk -delete->fast -name->"Particion1" -path->"/home/Disco1.dsk"
+#fdisk -name->"Particion1" -delete->full -path->"/home/user/Disco5.dsk"
+#rep -id->vda1 -Path->/home/user/reports/diskfinal2.jpg -name->disk
+
+#fdisk -name->"Particion1" -delete->full -path->"/home/user/Disco5.dsk"
+#fdisk -name->"Particion4" -delete->full -path->"/home/user/Disco5.dsk"
+#rep -id->vda1 -Path->/home/user/reports/diskfinal3.jpg -name->disk
+#Fdisk -sizE->1 -path->/home/user/Disco5.dsk -type->P -name->Particion9
+Fdisk -sizE->6 -unit->m -path->/home/user/Disco5.dsk -type->P -name->Particion9
+rep -id->vda1 -Path->/home/user/reports/diskfinal4.jpg -name->disk
+
+Fdisk -sizE->2 -unit->m -path->/home/user/Disco5.dsk -type->P -name->Enmedio
+rep -id->vda1 -Path->/home/user/reports/diskfinal5.jpg -name->disk
